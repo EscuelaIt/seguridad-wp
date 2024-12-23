@@ -1,0 +1,36 @@
+# proteger wp-login por IP
+<Files wp-login.php>
+    Order Deny,Allow
+    Deny from all
+    # Allow from 123.123.123.123
+    Allow from 127.0.0.1
+</Files>
+
+# redireccionar wp-login por IP
+ <Files wp-login.php>
+     RewriteEngine On
+     RewriteCond %{REMOTE_ADDR} !^123\.123\.123\.123$
+     RewriteRule ^.*$ http://wp-secure.local/you-shall-not-pass/ [R=302,L]
+ </Files>
+
+# proteger wp-config.php
+<files wp-config.php>
+order allow,deny
+deny from all
+</files>
+
+
+# Bloquear peticiones xmlrpc.php
+<Files xmlrpc.php>
+order deny,allow
+ deny from all
+ allow from 000.00.000.000
+</Files>
+http://wp-secure.local/xmlrpc.php?rsd
+
+
+# en wp-content/uploads o contenido/uploads, bloquear ejecución de php
+<Files *.php>
+deny from all
+</Files>
+
